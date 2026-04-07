@@ -68,7 +68,24 @@
             color: #667eea;
             font-weight: 600;
             margin-top: 6px;
-            min-height: 20px;
+            min-height: 24px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .scroll-inner {
+            display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%;
+            animation: banner-scroll 40s linear infinite;
+        }
+
+        .scroll-inner:hover { animation-play-state: paused; }
+
+        @keyframes banner-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
         }
 
         /* ── Grid ── */
@@ -114,11 +131,13 @@
         .event-label { font-weight: bold; font-size: 11px; }
         .event-time  { font-weight: normal; font-size: 10px; opacity: 0.85; margin-top: 1px; }
 
-        .ell1    { background-color: #c8e6c9; color: #027634; }
-        .ell2    { background-color: #bbdefb; color: #0e68b3; }
-        .ell-ext { background-color: #ffcdd2; color: #c71f23; }
-        .oelpa   { background-color: #e1bee7; color: #9242b4; }
-        .noclass { background-color: #f0f0f0; color: #999;    }
+        .ell1         { background-color: #c8e6c9; color: #027634; }
+        .ell2         { background-color: #bbdefb; color: #0e68b3; }
+        .ell-ext      { background-color: #ce93d8; color: #4a148c; }
+        .oelpa        { background-color: #e1bee7; color: #9242b4; }
+        .ohio-testing { background-color: #ffcdd2; color: #c62828; }
+        .noclass      { background-color: #f0f0f0; color: #999;    }
+        .holiday      { background-color: #fff9c4; color: #e65100; }
 
         .empty-day { background: #f5f5f5; }
 
@@ -257,12 +276,16 @@
             <span>ELL 2 — Progressive</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:#ffcdd2;"></div>
+            <div class="legend-color" style="background:#ce93d8;"></div>
             <span>ELL EXT — Extend</span>
         </div>
         <div class="legend-item">
-            <div class="legend-color" style="background:#e1bee7;"></div>
-            <span>OELPA Testing Week</span>
+            <div class="legend-color" style="background:#ffcdd2;"></div>
+            <span>Ohio State Testing</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#fff9c4; border:1px solid #e65100;"></div>
+            <span>Holiday / Observance</span>
         </div>
         <div class="legend-item">
             <div class="legend-color" style="background:#ffd700; border:2px solid #ff6b00;"></div>
@@ -369,7 +392,43 @@
             // 24: [], 25: [], 26: [], 27: []
         },
         '2026-4': {
-            // Example: 17: [{ label: 'No School', time: '', cls: 'noclass' }]
+            // Ohio State Testing April 7–24 — classes still run
+            7:  [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            8:  [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
+            9:  [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            10: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
+            13: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2', time: '9:45–10:15 AM',  cls: 'ell2' },
+                 { label: 'ELL 1', time: '10:30–11:00 AM', cls: 'ell1' }],
+            14: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            15: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
+            16: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            17: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
+            20: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2', time: '9:45–10:15 AM',  cls: 'ell2' },
+                 { label: 'ELL 1', time: '10:30–11:00 AM', cls: 'ell1' }],
+            21: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            22: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
+            23: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }],
+            24: [{ label: 'Ohio State Testing', time: 'Apr 7–24', cls: 'ohio-testing' },
+                 { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
+                 { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
         },
         '2026-5': {},
         '2026-6': {
@@ -389,12 +448,48 @@
     // STEP 3 — BANNER TEXT  keyed "YYYY-M"  (HTML allowed)
     // ═══════════════════════════════════════════════════════════════
     const banners = {
-        '2026-2': 'Mar 16 Parent University at 6pm &nbsp;·&nbsp; Mar 23–27 Spring Break &nbsp;·&nbsp; Mar 30 Qtr 4 begins',
-        '2026-3': 'Mar 23–27 Spring Break &nbsp;·&nbsp; Mar 30 Qtr 4 begins',
-        '2026-4': 'Quarter 4 Underway',
-        '2026-5': 'Quarter 4 Underway &nbsp;·&nbsp; Jun 5 Last Day of Classes',
-        '2026-6': 'Classes ended Jun 5 &nbsp;·&nbsp; Summer Break',
-        '2026-7': 'Summer Break &nbsp;·&nbsp; School resumes in August'
+        '2026-2': '✊ Black History Month &nbsp;·&nbsp; ❤️ American Heart Month &nbsp;·&nbsp; 🦔 Groundhog Day Feb 2 &nbsp;·&nbsp; 💕 Valentine\'s Day Feb 14 &nbsp;·&nbsp; 🇺🇸 Presidents\' Day Feb 16 &nbsp;·&nbsp; 📅 Parent University Mar 16 at 6pm &nbsp;·&nbsp; 🌷 Spring Break Mar 23–27 &nbsp;·&nbsp; 📚 Qtr 4 Begins Mar 30',
+        '2026-3': '♀️ Women\'s History Month &nbsp;·&nbsp; 🥗 National Nutrition Month &nbsp;·&nbsp; 🌍 Int\'l Women\'s Day Mar 8 &nbsp;·&nbsp; ☘️ St. Patrick\'s Day Mar 17 &nbsp;·&nbsp; 🌸 First Day of Spring Mar 20 &nbsp;·&nbsp; 🌷 Spring Break Mar 23–27 &nbsp;·&nbsp; 📚 Qtr 4 Begins Mar 30',
+        '2026-4': '🌍 Earth Month &nbsp;·&nbsp; 📝 National Poetry Month &nbsp;·&nbsp; 🤡 April Fools\' Day Apr 1 &nbsp;·&nbsp; 🐣 Easter Apr 5 &nbsp;·&nbsp; 📋 Ohio State Testing Apr 7–24 &nbsp;·&nbsp; 🌎 Earth Day Apr 22 &nbsp;·&nbsp; 📚 Quarter 4 Underway',
+        '2026-5': '🌸 Asian American & Pacific Islander Heritage Month &nbsp;·&nbsp; 🧠 Mental Health Awareness Month &nbsp;·&nbsp; 🪖 Military Appreciation Month &nbsp;·&nbsp; 🌮 Cinco de Mayo May 5 &nbsp;·&nbsp; 💐 Mother\'s Day May 10 &nbsp;·&nbsp; 🎖️ Memorial Day May 25 &nbsp;·&nbsp; 📚 Quarter 4 Underway &nbsp;·&nbsp; 🏁 Last Day of Classes Jun 5',
+        '2026-6': '🏳️‍🌈 Pride Month &nbsp;·&nbsp; 🌴 Caribbean American Heritage Month &nbsp;·&nbsp; 🇺🇸 Flag Day Jun 14 &nbsp;·&nbsp; ✊ Juneteenth Jun 19 &nbsp;·&nbsp; ☀️ First Day of Summer Jun 20 &nbsp;·&nbsp; 👨‍👧 Father\'s Day Jun 21 &nbsp;·&nbsp; 🏁 Classes ended Jun 5 — Summer Break',
+        '2026-7': '♿ Disability Pride Month &nbsp;·&nbsp; 🎆 Independence Day Jul 4 &nbsp;·&nbsp; ☀️ Summer Break &nbsp;·&nbsp; 🏫 School resumes in August'
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 4 — US HOLIDAYS  keyed "YYYY-M" → { day: { label, cls } }
+    // These layer ON TOP of the regular schedule automatically.
+    // ═══════════════════════════════════════════════════════════════
+    const holidays = {
+        '2026-2': {
+            2:  { label: 'Groundhog Day 🦔',      cls: 'holiday' },
+            14: { label: "Valentine's Day 💕",     cls: 'holiday' },
+            16: { label: "Presidents' Day 🇺🇸",   cls: 'holiday' },
+        },
+        '2026-3': {
+            8:  { label: "Int'l Women's Day 🌍",   cls: 'holiday' },
+            17: { label: "St. Patrick's Day ☘️",   cls: 'holiday' },
+            20: { label: 'First Day of Spring 🌸', cls: 'holiday' },
+        },
+        '2026-4': {
+            1:  { label: "April Fools' Day 🤡",    cls: 'holiday' },
+            5:  { label: 'Easter Sunday 🐣',        cls: 'holiday' },
+            22: { label: 'Earth Day 🌍',            cls: 'holiday' },
+        },
+        '2026-5': {
+            5:  { label: 'Cinco de Mayo 🌮',        cls: 'holiday' },
+            10: { label: "Mother's Day 💐",         cls: 'holiday' },
+            25: { label: 'Memorial Day 🎖️',        cls: 'holiday' },
+        },
+        '2026-6': {
+            14: { label: 'Flag Day 🇺🇸',           cls: 'holiday' },
+            19: { label: 'Juneteenth ✊',            cls: 'holiday' },
+            20: { label: 'First Day of Summer ☀️', cls: 'holiday' },
+            21: { label: "Father's Day 👨‍👧",      cls: 'holiday' },
+        },
+        '2026-7': {
+            4:  { label: 'Independence Day 🎆',     cls: 'holiday' },
+        }
     };
 
     // ═══════════════════════════════════════════════════════════════
@@ -419,10 +514,11 @@
     }
 
     function renderCalendar() {
-        const key           = `${viewYear}-${viewMonth}`;
-        const daysInMonth   = new Date(viewYear, viewMonth, 0).getDate();
-        const firstDow      = new Date(viewYear, viewMonth - 1, 1).getDay();
-        const monthOverrides = overrides[key] || {};
+        const key            = `${viewYear}-${viewMonth}`;
+        const daysInMonth    = new Date(viewYear, viewMonth, 0).getDate();
+        const firstDow       = new Date(viewYear, viewMonth - 1, 1).getDay();
+        const monthOverrides = overrides[key]  || {};
+        const monthHolidays  = holidays[key]   || {};
 
         document.getElementById('monthTitle').textContent =
             `${MONTH_NAMES[viewMonth - 1]} ${viewYear}`;
@@ -431,7 +527,10 @@
         document.getElementById('todayLine').textContent =
             `Today: ${today.toLocaleDateString('en-US', opts)}`;
 
-        document.getElementById('upcomingEvents').innerHTML = banners[key] || '';
+        const bannerText = banners[key] || '';
+        document.getElementById('upcomingEvents').innerHTML = bannerText
+            ? `<span class="scroll-inner">${bannerText}</span>`
+            : '';
 
         const cal = document.getElementById('calendar');
         cal.innerHTML = '';
@@ -467,9 +566,13 @@
                                  (viewYear === 2026 && viewMonth > 6) ||
                                  (viewYear === 2026 && viewMonth === 6 && day > 5);
 
-            const events = Object.prototype.hasOwnProperty.call(monthOverrides, day)
+            const baseEvents = Object.prototype.hasOwnProperty.call(monthOverrides, day)
                 ? monthOverrides[day]
                 : afterLastDay ? [] : (scheduleByDow[dow] || []);
+
+            // Holidays always show on top, regardless of class schedule
+            const holiday = monthHolidays[day];
+            const events  = holiday ? [holiday, ...baseEvents] : baseEvents;
 
             events.forEach(ev => {
                 const el  = document.createElement('div');
