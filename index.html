@@ -3,202 +3,508 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>February 2026 ELL Calendar</title>
+    <title>ELL Calendar</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Balsamiq Sans', lato, 'Helvetica Neue', Helvetica, Arial, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; min-height: 100vh; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; border-radius: 12px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+
+        body {
+            font-family: 'Balsamiq Sans', lato, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* ── Header ── */
         .header { text-align: center; margin-bottom: 40px; }
-        .current-date-info { font-size: 32px; font-weight: bold; color: #333; font-style: normal; margin-bottom: 8px; }
-        .upcoming-events { font-size: 14px; color: #667eea; font-weight: 600; margin-top: 6px; }
-        .weekday-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-bottom: 10px; }
-        .weekday { text-align: center; font-weight: bold; font-size: 18px; color: white; padding: 15px; border-radius: 8px; background: #667eea; }
-        .calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-        .day-cell { border: 2px solid #e0e0e0; border-radius: 8px; padding: 12px; min-height: 140px; background: #fafafa; position: relative; transition: all 0.3s ease; }
+
+        .today-line {
+            font-size: 15px;
+            color: #888;
+            margin-bottom: 10px;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 22px;
+            font-size: 22px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            font-family: inherit;
+            line-height: 1;
+        }
+
+        .nav-btn:hover  { background: #5568d4; transform: scale(1.05); }
+        .nav-btn:active { transform: scale(0.97); }
+
+        .month-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            min-width: 280px;
+        }
+
+        .upcoming-events {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
+            margin-top: 6px;
+            min-height: 20px;
+        }
+
+        /* ── Grid ── */
+        .weekday-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            background: #667eea;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-cell {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 140px;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
         .day-cell:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
+
         .day-number { font-size: 24px; font-weight: bold; color: #333; margin-bottom: 8px; }
+
         .events { font-size: 12px; line-height: 1.6; }
+
         .event { padding: 4px 6px; margin-bottom: 4px; border-radius: 3px; font-weight: bold; }
         .event-label { font-weight: bold; font-size: 11px; }
-        .event-time { font-weight: normal; font-size: 10px; opacity: 0.85; margin-top: 1px; }
-        .ell1 { background-color: #c8e6c9; color: #027634; }
-        .ell2 { background-color: #bbdefb; color: #0e68b3; }
+        .event-time  { font-weight: normal; font-size: 10px; opacity: 0.85; margin-top: 1px; }
+
+        .ell1    { background-color: #c8e6c9; color: #027634; }
+        .ell2    { background-color: #bbdefb; color: #0e68b3; }
         .ell-ext { background-color: #ffcdd2; color: #c71f23; }
-        .oelpa { background-color: #e1bee7; color: #9242b4; }
+        .oelpa   { background-color: #e1bee7; color: #9242b4; }
+        .noclass { background-color: #f0f0f0; color: #999;    }
+
         .empty-day { background: #f5f5f5; }
-        .today { background: linear-gradient(135deg, #fff9e6 0%, #fffacd 100%); border: 3px solid #ffd700; box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+
+        .today {
+            background: linear-gradient(135deg, #fff9e6 0%, #fffacd 100%);
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 15px rgba(255,215,0,0.5);
+        }
+
         .today .day-number { color: #ff6b00; font-size: 28px; }
-        .legend { margin-top: 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; }
+
+        /* ── Legend ── */
+        .legend {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
         .legend-item { display: flex; align-items: center; gap: 10px; }
         .legend-color { width: 20px; height: 20px; border-radius: 3px; flex-shrink: 0; }
-        .courses-section { margin-top: 50px; border-top: 3px solid #e0e0e0; padding-top: 40px; }
-        .courses-title { font-size: 26px; font-weight: bold; color: #333; margin-bottom: 24px; text-align: center; letter-spacing: 1px; }
-        .courses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .course-card { border-radius: 12px; padding: 22px; border: 2px solid; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+
+        /* ── Course Directory ── */
+        .courses-section {
+            margin-top: 50px;
+            border-top: 3px solid #e0e0e0;
+            padding-top: 40px;
+        }
+
+        .courses-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 24px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .course-card {
+            border-radius: 12px;
+            padding: 22px;
+            border: 2px solid;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
         .course-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.12); transform: translateY(-2px); }
+
         .course-card.progressive { background: #f5eeff; border-color: #9242b4; }
-        .course-card.newcomer { background: #e8f4ff; border-color: #0e68b3; }
-        .course-card.extend { background: #e8f8ee; border-color: #027634; }
+        .course-card.newcomer   { background: #e8f4ff; border-color: #0e68b3; }
+        .course-card.extend     { background: #e8f8ee; border-color: #027634; }
+
         .course-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
         .course-emoji { font-size: 22px; }
+
         .course-name { font-size: 17px; font-weight: bold; line-height: 1.3; }
         .course-card.progressive .course-name { color: #9242b4; }
-        .course-card.newcomer .course-name { color: #0e68b3; }
-        .course-card.extend .course-name { color: #027634; }
+        .course-card.newcomer   .course-name  { color: #0e68b3; }
+        .course-card.extend     .course-name  { color: #027634; }
+
         .course-code { font-size: 12px; color: #888; margin-bottom: 12px; margin-left: 32px; }
         .course-schedule { font-size: 13px; color: #555; margin-bottom: 16px; line-height: 1.8; }
+        .course-schedule .time-row { display: flex; align-items: center; gap: 6px; }
+
         .course-links { display: flex; flex-wrap: wrap; gap: 8px; }
-        .course-link { display: inline-flex; align-items: center; gap: 5px; padding: 7px 13px; border-radius: 20px; font-size: 12px; font-weight: bold; text-decoration: none; transition: opacity 0.2s ease, transform 0.1s ease; cursor: pointer; }
+
+        .course-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: opacity 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
+        }
+
         .course-link:hover { opacity: 0.85; transform: scale(1.03); }
-        .course-card.progressive .link-primary { background: #9242b4; color: white; }
+
+        .course-card.progressive .link-primary  { background: #9242b4; color: white; }
         .course-card.progressive .link-calendar { background: #e1bee7; color: #6a1b9a; }
-        .course-card.newcomer .link-primary { background: #0e68b3; color: white; }
-        .course-card.newcomer .link-calendar { background: #bbdefb; color: #0d47a1; }
-        .course-card.extend .link-primary { background: #027634; color: white; }
-        .course-card.extend .link-calendar { background: #c8e6c9; color: #1b5e20; }
+        .course-card.newcomer   .link-primary   { background: #0e68b3; color: white; }
+        .course-card.newcomer   .link-calendar  { background: #bbdefb; color: #0d47a1; }
+        .course-card.extend     .link-primary   { background: #027634; color: white; }
+        .course-card.extend     .link-calendar  { background: #c8e6c9; color: #1b5e20; }
+
         @media (max-width: 768px) {
-            .container { padding: 20px; }
-            .day-cell { min-height: 100px; padding: 8px; }
+            .container  { padding: 20px; }
+            .day-cell   { min-height: 100px; padding: 8px; }
             .day-number { font-size: 18px; }
-            .events { font-size: 10px; }
-            .weekday { font-size: 14px; padding: 10px; }
+            .events     { font-size: 10px; }
+            .weekday    { font-size: 14px; padding: 10px; }
+            .month-title { font-size: 22px; min-width: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="current-date-info" id="todayInfo"></div>
-            <div class="upcoming-events">Mar 16 Parent University at 6pm · Mar 23-27 Spring Break · Mar 30 Qtr 4 begins</div>
+<div class="container">
+
+    <div class="header">
+        <div class="today-line" id="todayLine"></div>
+        <div class="month-nav">
+            <button class="nav-btn" onclick="changeMonth(-1)">&#8249;</button>
+            <div class="month-title" id="monthTitle"></div>
+            <button class="nav-btn" onclick="changeMonth(+1)">&#8250;</button>
         </div>
-        <div class="weekday-header">
-            <div class="weekday">Sunday</div>
-            <div class="weekday">Monday</div>
-            <div class="weekday">Tuesday</div>
-            <div class="weekday">Wednesday</div>
-            <div class="weekday">Thursday</div>
-            <div class="weekday">Friday</div>
-            <div class="weekday">Saturday</div>
+        <div class="upcoming-events" id="upcomingEvents"></div>
+    </div>
+
+    <div class="weekday-header">
+        <div class="weekday">Sunday</div>
+        <div class="weekday">Monday</div>
+        <div class="weekday">Tuesday</div>
+        <div class="weekday">Wednesday</div>
+        <div class="weekday">Thursday</div>
+        <div class="weekday">Friday</div>
+        <div class="weekday">Saturday</div>
+    </div>
+
+    <div class="calendar" id="calendar"></div>
+
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color" style="background:#c8e6c9;"></div>
+            <span>ELL 1 — Newcomer</span>
         </div>
-        <div class="calendar" id="calendar"></div>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-color" style="background-color:#c8e6c9;"></div><span>ELL 1 - Newcomer</span></div>
-            <div class="legend-item"><div class="legend-color" style="background-color:#bbdefb;"></div><span>ELL 2 - Progressive</span></div>
-            <div class="legend-item"><div class="legend-color" style="background-color:#ffcdd2;"></div><span>ELL EXT - Extend</span></div>
-            <div class="legend-item"><div class="legend-color" style="background-color:#e1bee7;"></div><span>OELPA Testing Week</span></div>
-            <div class="legend-item"><div class="legend-color" style="background-color:#ffd700;border:2px solid #ff6b00;"></div><span>Today</span></div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#bbdefb;"></div>
+            <span>ELL 2 — Progressive</span>
         </div>
-        <div class="courses-section">
-            <div class="courses-title">Course Directory</div>
-            <div class="courses-grid">
-                <div class="course-card progressive">
-                    <div class="course-card-header"><span class="course-emoji">🟣</span><span class="course-name">Progressive - ELL 9-12</span></div>
-                    <div class="course-code">Flash-BPROODA</div>
-                    <div class="course-schedule">
-                        <div>Monday | 9:45 - 10:15 AM</div>
-                        <div>Wednesday & Friday | 10:00 - 10:45 AM</div>
-                    </div>
-                    <div class="course-links">
-                        <a href="https://vpa.instructure.com/courses/530346" class="course-link link-primary">Go to Course</a>
-                    </div>
-                </div>
-                <div class="course-card newcomer">
-                    <div class="course-card-header"><span class="course-emoji">🔵</span><span class="course-name">Newcomer - ELL 9-12</span></div>
-                    <div class="course-code">Flash-BNEWODA</div>
-                    <div class="course-schedule">
-                        <div>Monday | 10:30 - 11:00 AM</div>
-                        <div>Tuesday & Thursday | 1:15 - 2:00 PM</div>
-                    </div>
-                    <div class="course-links">
-                        <a href="https://vpa.instructure.com/courses/530334" class="course-link link-primary">Go to Course</a>
-                    </div>
-                </div>
-                <div class="course-card extend">
-                    <div class="course-card-header"><span class="course-emoji">🟢</span><span class="course-name">Extend - ELL 9-12</span></div>
-                    <div class="course-code">Flash-BEXTEND</div>
-                    <div class="course-schedule">
-                        <div>Wednesday & Friday | 1:15 - 1:45 PM</div>
-                    </div>
-                    <div class="course-links">
-                        <a href="https://vpa.instructure.com/courses/530048" class="course-link link-primary">Go to Course</a>
-                    </div>
-                </div>
-            </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#ffcdd2;"></div>
+            <span>ELL EXT — Extend</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#e1bee7;"></div>
+            <span>OELPA Testing Week</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color" style="background:#ffd700; border:2px solid #ff6b00;"></div>
+            <span>Today</span>
         </div>
     </div>
-    <script>
-        const calendarData = {
-            2:  [{label:'ELL 2',time:'9:45-10:15 AM',cls:'ell2'},{label:'ELL 1',time:'10:30-11:00 AM',cls:'ell1'}],
-            3:  [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            4:  [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            5:  [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            6:  [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            8:  [{label:'OELPA TESTING WEEK',time:'10:00 AM - 3:00 PM',cls:'oelpa'}],
-            9:  [{label:'ELL 2',time:'9:45-10:15 AM',cls:'ell2'},{label:'ELL 1',time:'10:30-11:00 AM',cls:'ell1'}],
-            10: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            11: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            12: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            13: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            15: [{label:'OELPA TESTING WEEK',time:'10:00 AM - 3:00 PM',cls:'oelpa'}],
-            16: [{label:'ELL 2',time:'9:45-10:15 AM',cls:'ell2'},{label:'ELL 1',time:'10:30-11:00 AM',cls:'ell1'}],
-            17: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            18: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            19: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            20: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            22: [{label:'OELPA TESTING WEEK',time:'10:00 AM - 3:00 PM',cls:'oelpa'}],
-            23: [{label:'ELL 2',time:'9:45-10:15 AM',cls:'ell2'},{label:'ELL 1',time:'10:30-11:00 AM',cls:'ell1'}],
-            24: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            25: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}],
-            26: [{label:'ELL 1',time:'1:15-2:00 PM',cls:'ell1'}],
-            27: [{label:'ELL 2',time:'10:00-10:45 AM',cls:'ell2'},{label:'ELL EXT',time:'1:15-2:00 PM',cls:'ell-ext'}]
-        };
-        function renderCalendar() {
-            const today = new Date();
-            const todayDate = today.getDate(), todayMonth = today.getMonth()+1, todayYear = today.getFullYear();
-            const options = {weekday:'long',year:'numeric',month:'long',day:'numeric'};
-            document.getElementById('todayInfo').textContent = 'Today: ' + today.toLocaleDateString('en-US', options);
-            const calendarEl = document.getElementById('calendar');
-            calendarEl.innerHTML = '';
-            for (let i = 1; i <= 28; i++) {
-                const dayCell = document.createElement('div');
-                dayCell.className = 'day-cell';
-                if (todayDate===i && todayMonth===2 && todayYear===2026) dayCell.classList.add('today');
-                const dayNumber = document.createElement('div');
-                dayNumber.className = 'day-number';
-                dayNumber.textContent = i;
-                dayCell.appendChild(dayNumber);
-                const eventsDiv = document.createElement('div');
-                eventsDiv.className = 'events';
-                if (calendarData[i]) {
-                    calendarData[i].forEach(function(event) {
-                        const eventEl = document.createElement('div');
-                        eventEl.className = 'event ' + event.cls;
-                        const labelEl = document.createElement('div');
-                        labelEl.className = 'event-label';
-                        labelEl.textContent = event.label;
-                        eventEl.appendChild(labelEl);
-                        if (event.time) {
-                            const timeEl = document.createElement('div');
-                            timeEl.className = 'event-time';
-                            timeEl.textContent = event.time;
-                            eventEl.appendChild(timeEl);
-                        }
-                        eventsDiv.appendChild(eventEl);
-                    });
-                }
-                dayCell.appendChild(eventsDiv);
-                calendarEl.appendChild(dayCell);
-            }
-            const totalCells = calendarEl.children.length;
-            const remainingCells = (7-(totalCells%7))%7;
-            for (let i = 0; i < remainingCells; i++) {
-                const emptyCell = document.createElement('div');
-                emptyCell.className = 'day-cell empty-day';
-                calendarEl.appendChild(emptyCell);
-            }
+
+    <!-- Course Directory -->
+    <div class="courses-section">
+        <div class="courses-title">📚 Course Directory</div>
+        <div class="courses-grid">
+
+            <div class="course-card progressive">
+                <div class="course-card-header">
+                    <span class="course-emoji">🟣</span>
+                    <span class="course-name">Progressive — ELL 9-12</span>
+                </div>
+                <div class="course-code">Flash-BPROODA</div>
+                <div class="course-schedule">
+                    <div class="time-row">🕐 Monday | 9:45 – 10:15 AM</div>
+                    <div class="time-row">🕐 Wednesday &amp; Friday | 10:00 – 10:45 AM</div>
+                </div>
+                <div class="course-links">
+                    <a href="https://vpa.instructure.com/courses/530346" class="course-link link-primary">🔗 Go to Course</a>
+                    <a href="#" class="course-link link-calendar">📆 Add Mon to Calendar</a>
+                    <a href="#" class="course-link link-calendar">📆 Add Wed/Fri to Calendar</a>
+                </div>
+            </div>
+
+            <div class="course-card newcomer">
+                <div class="course-card-header">
+                    <span class="course-emoji">🔵</span>
+                    <span class="course-name">Newcomer — ELL 9-12</span>
+                </div>
+                <div class="course-code">Flash-BNEWODA</div>
+                <div class="course-schedule">
+                    <div class="time-row">🕐 Monday | 10:30 – 11:00 AM</div>
+                    <div class="time-row">🕐 Tuesday &amp; Thursday | 1:15 – 2:00 PM</div>
+                </div>
+                <div class="course-links">
+                    <a href="https://vpa.instructure.com/courses/530334" class="course-link link-primary">🔗 Go to Course</a>
+                    <a href="#" class="course-link link-calendar">📆 Add Mon to Calendar</a>
+                    <a href="#" class="course-link link-calendar">📆 Add Tue/Thu to Calendar</a>
+                </div>
+            </div>
+
+            <div class="course-card extend">
+                <div class="course-card-header">
+                    <span class="course-emoji">🟢</span>
+                    <span class="course-name">Extend — ELL 9-12</span>
+                </div>
+                <div class="course-code">Flash-BEXTEND</div>
+                <div class="course-schedule">
+                    <div class="time-row">🕐 Wednesday &amp; Friday | 1:15 – 1:45 PM</div>
+                </div>
+                <div class="course-links">
+                    <a href="https://vpa.instructure.com/courses/530048" class="course-link link-primary">🔗 Go to Course</a>
+                    <a href="#" class="course-link link-calendar">📆 Add to Calendar</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 1 — RECURRING SCHEDULE (edit once, applies to every month)
+    // Day-of-week: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+    // ═══════════════════════════════════════════════════════════════
+    const scheduleByDow = {
+        1: [ // Monday
+            { label: 'ELL 2', time: '9:45–10:15 AM',  cls: 'ell2' },
+            { label: 'ELL 1', time: '10:30–11:00 AM', cls: 'ell1' }
+        ],
+        2: [ // Tuesday
+            { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }
+        ],
+        3: [ // Wednesday
+            { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2'    },
+            { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }
+        ],
+        4: [ // Thursday
+            { label: 'ELL 1', time: '1:15–2:00 PM', cls: 'ell1' }
+        ],
+        5: [ // Friday
+            { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2'    },
+            { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }
+        ]
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 2 — ONE-OFF OVERRIDES  keyed "YYYY-M"
+    // Use [] on a date to clear it (no school, holiday, etc.)
+    // ═══════════════════════════════════════════════════════════════
+    const overrides = {
+        '2026-2': {
+            8:  [{ label: 'OELPA Testing Week', time: '10:00 AM – 3:00 PM', cls: 'oelpa' }],
+            15: [{ label: 'OELPA Testing Week', time: '10:00 AM – 3:00 PM', cls: 'oelpa' }],
+            22: [{ label: 'OELPA Testing Week', time: '10:00 AM – 3:00 PM', cls: 'oelpa' }]
+        },
+        '2026-3': {
+            // 23: [{ label: 'Spring Break', time: 'No School', cls: 'noclass' }],
+            // 24: [], 25: [], 26: [], 27: []
+        },
+        '2026-4': {
+            // Example: 17: [{ label: 'No School', time: '', cls: 'noclass' }]
+        },
+        '2026-5': {},
+        '2026-6': {
+            // Classes end June 5. Days 6–30 will show no classes automatically.
+            // Add holidays here, e.g.: 19: [{ label: 'Juneteenth', time: 'No School', cls: 'noclass' }]
+        },
+        '2026-7': {
+            // Summer — no classes. Add holidays here as needed.
         }
+    };
+
+    // Last month users can navigate to
+    const LAST_YEAR  = 2026;
+    const LAST_MONTH = 7; // July
+
+    // ═══════════════════════════════════════════════════════════════
+    // STEP 3 — BANNER TEXT  keyed "YYYY-M"  (HTML allowed)
+    // ═══════════════════════════════════════════════════════════════
+    const banners = {
+        '2026-2': 'Mar 16 Parent University at 6pm &nbsp;·&nbsp; Mar 23–27 Spring Break &nbsp;·&nbsp; Mar 30 Qtr 4 begins',
+        '2026-3': 'Mar 23–27 Spring Break &nbsp;·&nbsp; Mar 30 Qtr 4 begins',
+        '2026-4': 'Quarter 4 Underway',
+        '2026-5': 'Quarter 4 Underway &nbsp;·&nbsp; Jun 5 Last Day of Classes',
+        '2026-6': 'Classes ended Jun 5 &nbsp;·&nbsp; Summer Break',
+        '2026-7': 'Summer Break &nbsp;·&nbsp; School resumes in August'
+    };
+
+    // ═══════════════════════════════════════════════════════════════
+    // ENGINE — no edits needed below this line
+    // ═══════════════════════════════════════════════════════════════
+    const MONTH_NAMES = ['January','February','March','April','May','June',
+                         'July','August','September','October','November','December'];
+
+    const today = new Date();
+    let viewYear  = today.getFullYear();
+    let viewMonth = today.getMonth() + 1; // 1-based
+
+    function changeMonth(delta) {
+        const nextMonth = viewMonth + delta;
+        const nextYear  = viewYear + (nextMonth > 12 ? 1 : nextMonth < 1 ? -1 : 0);
+        const clampedMonth = nextMonth > 12 ? 1 : nextMonth < 1 ? 12 : nextMonth;
+        // Don't go past July 2026
+        if (nextYear > LAST_YEAR || (nextYear === LAST_YEAR && clampedMonth > LAST_MONTH)) return;
+        viewMonth = clampedMonth;
+        viewYear  = nextYear;
         renderCalendar();
-        setInterval(renderCalendar, 60000);
-    </script>
+    }
+
+    function renderCalendar() {
+        const key           = `${viewYear}-${viewMonth}`;
+        const daysInMonth   = new Date(viewYear, viewMonth, 0).getDate();
+        const firstDow      = new Date(viewYear, viewMonth - 1, 1).getDay();
+        const monthOverrides = overrides[key] || {};
+
+        document.getElementById('monthTitle').textContent =
+            `${MONTH_NAMES[viewMonth - 1]} ${viewYear}`;
+
+        const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('todayLine').textContent =
+            `Today: ${today.toLocaleDateString('en-US', opts)}`;
+
+        document.getElementById('upcomingEvents').innerHTML = banners[key] || '';
+
+        const cal = document.getElementById('calendar');
+        cal.innerHTML = '';
+
+        // Leading empty cells
+        for (let i = 0; i < firstDow; i++) {
+            const e = document.createElement('div');
+            e.className = 'day-cell empty-day';
+            cal.appendChild(e);
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dow  = (firstDow + day - 1) % 7;
+            const cell = document.createElement('div');
+            cell.className = 'day-cell';
+
+            if (day === today.getDate() &&
+                viewMonth === today.getMonth() + 1 &&
+                viewYear  === today.getFullYear()) {
+                cell.classList.add('today');
+            }
+
+            const num = document.createElement('div');
+            num.className = 'day-number';
+            num.textContent = day;
+            cell.appendChild(num);
+
+            const evDiv = document.createElement('div');
+            evDiv.className = 'events';
+
+            // Classes end June 5 — after that only overrides (holidays) show
+            const afterLastDay = (viewYear > 2026) ||
+                                 (viewYear === 2026 && viewMonth > 6) ||
+                                 (viewYear === 2026 && viewMonth === 6 && day > 5);
+
+            const events = Object.prototype.hasOwnProperty.call(monthOverrides, day)
+                ? monthOverrides[day]
+                : afterLastDay ? [] : (scheduleByDow[dow] || []);
+
+            events.forEach(ev => {
+                const el  = document.createElement('div');
+                el.className = `event ${ev.cls}`;
+
+                const lbl = document.createElement('div');
+                lbl.className = 'event-label';
+                lbl.textContent = ev.label;
+                el.appendChild(lbl);
+
+                if (ev.time) {
+                    const t = document.createElement('div');
+                    t.className = 'event-time';
+                    t.textContent = ev.time;
+                    el.appendChild(t);
+                }
+
+                evDiv.appendChild(el);
+            });
+
+            cell.appendChild(evDiv);
+            cal.appendChild(cell);
+        }
+
+        // Trailing empty cells
+        const trailing = (7 - ((firstDow + daysInMonth) % 7)) % 7;
+        for (let i = 0; i < trailing; i++) {
+            const e = document.createElement('div');
+            e.className = 'day-cell empty-day';
+            cal.appendChild(e);
+        }
+    }
+
+    renderCalendar();
+    setInterval(renderCalendar, 60000);
+</script>
 </body>
 </html>
