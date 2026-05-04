@@ -352,10 +352,10 @@
 </div>
 
 <script>
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     // STEP 1 — RECURRING SCHEDULE (edit once, applies to every month)
     // Day-of-week: 0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     const scheduleByDow = {
         1: [ // Monday
             { label: 'ELL 2', time: '9:45–10:15 AM',  cls: 'ell2' },
@@ -377,10 +377,10 @@
         ]
     };
 
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     // STEP 2 — ONE-OFF OVERRIDES  keyed "YYYY-M"
     // Use [] on a date to clear it (no school, holiday, etc.)
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     const overrides = {
         '2026-2': {
             8:  [{ label: 'OELPA Testing Week', time: '10:00 AM – 3:00 PM', cls: 'oelpa' }],
@@ -430,10 +430,17 @@
                  { label: 'ELL 2',   time: '10:00–10:45 AM', cls: 'ell2' },
                  { label: 'ELL EXT', time: '1:15–2:00 PM',   cls: 'ell-ext' }],
         },
-        '2026-5': {},
+        '2026-5': {
+            4: [{ label: 'Teacher Appreciation Week', time: 'May 4–8', cls: 'holiday' }],
+            5: [{ label: 'Teacher Appreciation Week', time: 'May 4–8', cls: 'holiday' }],
+            6: [{ label: 'Teacher Appreciation Week', time: 'May 4–8', cls: 'holiday' }],
+            7: [{ label: 'Teacher Appreciation Week', time: 'May 4–8', cls: 'holiday' }],
+            8: [{ label: 'Teacher Appreciation Week', time: 'May 4–8', cls: 'holiday' }],
+        },
         '2026-6': {
             // Classes end June 5. Days 6–30 will show no classes automatically.
             // Add holidays here, e.g.: 19: [{ label: 'Juneteenth', time: 'No School', cls: 'noclass' }]
+            13: [{ label: 'Graduation', time: 'End of Year', cls: 'holiday' }]
         },
         '2026-7': {
             // Summer — no classes. Add holidays here as needed.
@@ -444,22 +451,22 @@
     const LAST_YEAR  = 2026;
     const LAST_MONTH = 7; // July
 
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     // STEP 3 — BANNER TEXT  keyed "YYYY-M"  (HTML allowed)
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     const banners = {
-        '2026-2': '✊ Black History Month &nbsp;·&nbsp; ❤️ American Heart Month &nbsp;·&nbsp; 🦔 Groundhog Day Feb 2 &nbsp;·&nbsp; 💕 Valentine\'s Day Feb 14 &nbsp;·&nbsp; 🇺🇸 Presidents\' Day Feb 16 &nbsp;·&nbsp; 📅 Parent University Mar 16 at 6pm &nbsp;·&nbsp; 🌷 Spring Break Mar 23–27 &nbsp;·&nbsp; 📚 Qtr 4 Begins Mar 30',
-        '2026-3': '♀️ Women\'s History Month &nbsp;·&nbsp; 🥗 National Nutrition Month &nbsp;·&nbsp; 🌍 Int\'l Women\'s Day Mar 8 &nbsp;·&nbsp; ☘️ St. Patrick\'s Day Mar 17 &nbsp;·&nbsp; 🌸 First Day of Spring Mar 20 &nbsp;·&nbsp; 🌷 Spring Break Mar 23–27 &nbsp;·&nbsp; 📚 Qtr 4 Begins Mar 30',
-        '2026-4': '🌍 Earth Month &nbsp;·&nbsp; 📝 National Poetry Month &nbsp;·&nbsp; 🤡 April Fools\' Day Apr 1 &nbsp;·&nbsp; 🐣 Easter Apr 5 &nbsp;·&nbsp; 📋 Ohio State Testing Apr 7–24 &nbsp;·&nbsp; 🌎 Earth Day Apr 22 &nbsp;·&nbsp; 📚 Quarter 4 Underway',
-        '2026-5': '🌸 Asian American & Pacific Islander Heritage Month &nbsp;·&nbsp; 🧠 Mental Health Awareness Month &nbsp;·&nbsp; 🪖 Military Appreciation Month &nbsp;·&nbsp; 🌮 Cinco de Mayo May 5 &nbsp;·&nbsp; 💐 Mother\'s Day May 10 &nbsp;·&nbsp; 🎖️ Memorial Day May 25 &nbsp;·&nbsp; 📚 Quarter 4 Underway &nbsp;·&nbsp; 🏁 Last Day of Classes Jun 5',
-        '2026-6': '🏳️‍🌈 Pride Month &nbsp;·&nbsp; 🌴 Caribbean American Heritage Month &nbsp;·&nbsp; 🇺🇸 Flag Day Jun 14 &nbsp;·&nbsp; ✊ Juneteenth Jun 19 &nbsp;·&nbsp; ☀️ First Day of Summer Jun 20 &nbsp;·&nbsp; 👨‍👧 Father\'s Day Jun 21 &nbsp;·&nbsp; 🏁 Classes ended Jun 5 — Summer Break',
+        '2026-2': '✊ Black History Month &nbsp;·&nbsp; ❤️ American Heart Month &nbsp;·&nbsp; 🦔 Groundhog Day Feb 2 &nbsp;·&nbsp; 💕 Valentine\'s Day Feb 14 &nbsp;·&nbsp; 🇺🇸 Presidents\' Day Feb 16',
+        '2026-3': '♀️ Women\'s History Month &nbsp;·&nbsp; 🥗 National Nutrition Month &nbsp;·&nbsp; 🌍 Int\'l Women\'s Day Mar 8 &nbsp;·&nbsp; ☘️ St. Patrick\'s Day Mar 17 &nbsp;·&nbsp; 🌸 Spring Equinox Mar 20',
+        '2026-4': '🌍 Earth Month &nbsp;·&nbsp; 📝 National Poetry Month &nbsp;·&nbsp; 🤡 April Fools\' Day Apr 1 &nbsp;·&nbsp; 🐣 Easter Apr 5 &nbsp;·&nbsp; 📋 Ohio State Testing Apr 7–24 &nbsp;·&nbsp; 🌍 Earth Day Apr 22',
+        '2026-5': '🌸 Asian American & Pacific Islander Heritage Month &nbsp;·&nbsp; 🧠 Mental Health Awareness Month &nbsp;·&nbsp; 🪖 Military Appreciation Month &nbsp;·&nbsp; 🏫 School Principals\' Day May 1 &nbsp;·&nbsp; 🏇 Kentucky Derby May 2 &nbsp;·&nbsp; 👩‍🏫 Teacher Appreciation Week May 4–8 &nbsp;·&nbsp; 🪘 Cinco de Mayo May 5 &nbsp;·&nbsp; 💐 Mother\'s Day May 10 &nbsp;·&nbsp; 🪖 Armed Forces Day May 16 &nbsp;·&nbsp; 🎖️ Memorial Day May 25',
+        '2026-6': '🏳️‍🌈 Pride Month &nbsp;·&nbsp; 🌴 Caribbean American Heritage Month &nbsp;·&nbsp; 🇺🇸 Flag Day Jun 14 &nbsp;·&nbsp; ✊ Juneteenth Jun 19 &nbsp;·&nbsp; ☀️ Summer Solstice Jun 20 &nbsp;·&nbsp; 👨‍👧 Father\'s Day Jun 21 &nbsp;·&nbsp; 🎓 Graduation Jun 13',
         '2026-7': '♿ Disability Pride Month &nbsp;·&nbsp; 🎆 Independence Day Jul 4 &nbsp;·&nbsp; ☀️ Summer Break &nbsp;·&nbsp; 🏫 School resumes in August'
     };
 
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     // STEP 4 — US HOLIDAYS  keyed "YYYY-M" → { day: { label, cls } }
     // These layer ON TOP of the regular schedule automatically.
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     const holidays = {
         '2026-2': {
             2:  { label: 'Groundhog Day 🦔',      cls: 'holiday' },
@@ -477,11 +484,15 @@
             22: { label: 'Earth Day 🌍',            cls: 'holiday' },
         },
         '2026-5': {
-            5:  { label: 'Cinco de Mayo 🌮',        cls: 'holiday' },
+            1:  { label: "School Principals' Day 🏫", cls: 'holiday' },
+            2:  { label: 'Kentucky Derby 🏇',       cls: 'holiday' },
+            5:  { label: 'Cinco de Mayo 🪘',        cls: 'holiday' },
             10: { label: "Mother's Day 💐",         cls: 'holiday' },
-            25: { label: 'Memorial Day 🎖️',        cls: 'holiday' },
+            16: { label: 'Armed Forces Day 🪖',     cls: 'holiday' },
+            25: { label: 'Memorial Day (No School) 🎖️', cls: 'noclass' },
         },
         '2026-6': {
+            13: { label: 'Graduation 🎓',           cls: 'holiday' },
             14: { label: 'Flag Day 🇺🇸',           cls: 'holiday' },
             19: { label: 'Juneteenth ✊',            cls: 'holiday' },
             20: { label: 'First Day of Summer ☀️', cls: 'holiday' },
@@ -492,9 +503,9 @@
         }
     };
 
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     // ENGINE — no edits needed below this line
-    // ═══════════════════════════════════════════════════════════════
+    // ════════════════════════════════════════════════════════════════
     const MONTH_NAMES = ['January','February','March','April','May','June',
                          'July','August','September','October','November','December'];
 
